@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ApiResponseResource;
 use App\Http\Resources\CourseResource;
-use App\Models\ApiResponse;
+use App\Helpers\ApiResponse;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
@@ -17,8 +16,10 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $data = Course::all();
-        return response(new ApiResponseResource(new ApiResponse('Success', [], CourseResource::collection($data))), 200);
+        $responseData = CourseResource::collection(Course::all());
+        return ApiResponse::succesResponse($responseData);
+
+        //return ApiResponse::forbidenResponse();
     }
 
     /**

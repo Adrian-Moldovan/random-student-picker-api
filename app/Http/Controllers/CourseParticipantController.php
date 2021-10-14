@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Helpers\ApiResponse;
+use App\Http\Resources\CourseResource;
+use App\Models\Course;
+use App\Models\CourseParticipant;
 
 class CourseParticipantController extends Controller
 {
@@ -13,18 +17,10 @@ class CourseParticipantController extends Controller
      */
     public function index()
     {
-        return response(['message' => 'Interface not available'], 404);
+        //return response(['message' => 'Interface not available'], 404);
+        return ApiResponse::resourceNotAvailableResponse();
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -32,9 +28,20 @@ class CourseParticipantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function register(Request $request)
     {
-        //
+        $course = Course::firstWhere('slug', $request->slug);
+        
+        if(!$course){
+            return ApiResponse::resourceNotAvailableResponse(); 
+        }
+
+        $courseParticipant = new CourseParticipant;
+        $courseParticipant -> student_name = 'Uiuiui';
+        $courseParticipant -> course_id = $course -> id;
+        $courseParticipant -> save();
+
+        return ApiResponse::resourceCreatedResponse($courseParticipant);
     }
 
     /**
@@ -44,17 +51,6 @@ class CourseParticipantController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }

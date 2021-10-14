@@ -18,11 +18,11 @@ class ApiResponseResource extends JsonResource
             'message' => $this -> message
         ];
 
-        if(isset($this -> errors) && count($this -> errors)){
+        if(isset($this -> errors)){
             $resource['errors'] = $this -> errors;
         }
 
-        if(isset($this -> data) && count($this -> data)){
+        if(isset($this -> data)){
             $resource['data'] = $this -> data; 
         }
 
